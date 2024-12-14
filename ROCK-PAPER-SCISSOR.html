@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 3.5rem;
+            color: #fff;
+            text-shadow: 3px 3px 8px rgba(0, 0, 0, 0.4);
+        }
+        .choices {
+            margin: 20px;
+        }
+        button {
+            margin: 10px;
+            padding: 15px 30px;
+            font-size: 20px;
+            font-weight: bold;
+            border: none;
+            border-radius: 30px;
+            color: white;
+            background: linear-gradient(135deg, #6a11cb, #2575fc);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            cursor: pointer;
+            transition: transform 0.3s ease, background 0.3s ease;
+        }
+        button:hover {
+            background: linear-gradient(135deg, #2575fc, #6a11cb);
+            transform: scale(1.1);
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        .result {
+            margin-top: 30px;
+            font-size: 28px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.5);
+        }
+        .game-container {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+        }
+        .score {
+            margin-top: 20px;
+            font-size: 22px;
+            font-weight: bold;
+            color: #fff;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.4);
+        }
+        .reset {
+            margin-top: 20px;
+            padding: 12px 25px;
+            font-size: 18px;
+            background: #ff416c;
+            border: none;
+            border-radius: 12px;
+            color: white;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .reset:hover {
+            background: #ff4b2b;
+        }
+        .floating-emoji {
+            position: absolute;
+            animation: float 6s infinite ease-in-out;
+            opacity: 0.5;
+        }
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="floating-emoji" style="top: 10%; left: 15%; font-size: 80px;">✊</div>
+    <div class="floating-emoji" style="top: 50%; right: 10%; font-size: 100px;">✋</div>
+    <div class="floating-emoji" style="bottom: 10%; left: 40%; font-size: 90px;">✌️</div>
+
+    <h1>Rock, Paper, Scissors</h1>
+    <div class="game-container">
+        <p>Choose your move:</p>
+
+        <div class="choices">
+            <button onclick="playGame('rock')">✊ Rock</button>
+            <button onclick="playGame('paper')">✋ Paper</button>
+            <button onclick="playGame('scissors')">✌️ Scissors</button>
+        </div>
+
+        <div class="result" id="result">Make your move to see the result!</div>
+        <div class="score" id="score">Player: 0 | Computer: 0</div>
+        <button class="reset" onclick="resetGame()">Reset Game</button>
+    </div>
+
+    <script>
+        let playerScore = 0;
+        let computerScore = 0;
+
+        function playGame(playerChoice) {
+            const choices = ['rock', 'paper', 'scissors'];
+            const emojis = { rock: '✊', paper: '✋', scissors: '✌️' };
+            const computerChoice = choices[Math.floor(Math.random() * 3)];
+
+            let result = '';
+            if (playerChoice === computerChoice) {
+                result = `It's a tie! Both chose ${emojis[playerChoice]}.`;
+            } else if (
+                (playerChoice === 'rock' && computerChoice === 'scissors') ||
+                (playerChoice === 'paper' && computerChoice === 'rock') ||
+                (playerChoice === 'scissors' && computerChoice === 'paper')
+            ) {
+                result = `🎉 You win! ${emojis[playerChoice]} beats ${emojis[computerChoice]}.`;
+                playerScore++;
+            } else {
+                result = `😢 You lose! ${emojis[computerChoice]} beats ${emojis[playerChoice]}.`;
+                computerScore++;
+            }
+
+            document.getElementById('result').textContent = result;
+            document.getElementById('score').textContent = `Player: ${playerScore} | Computer: ${computerScore}`;
+        }
+
+        function resetGame() {
+            playerScore = 0;
+            computerScore = 0;
+            document.getElementById('result').textContent = 'Make your move to see the result!';
+            document.getElementById('score').textContent = 'Player: 0 | Computer: 0';
+        }
+    </script>
+</body>
+</html>
